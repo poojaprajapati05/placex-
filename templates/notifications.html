@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+{% if current_user.role == "student" %}
+
+<h2>Student</h2>
+
+<a href="/student_dashboard">Dashboard</a>
+<a href="/profile">Profile</a>
+<a href="/available_jobs">Jobs</a>
+<a href="/applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+{% elif current_user.role == "employer" %}
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+{% endif %}
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<h2>Notifications</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+{% for category, message in messages %}
+
+<div class="notification {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="card">
+No new notifications
+</div>
+
+{% endif %}
+{% endwith %}
+
+</div>
+
+</div>
+
+</body>
+</html>

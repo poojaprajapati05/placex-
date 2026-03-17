@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Student</h2>
+
+<a href="/student_dashboard">Dashboard</a>
+<a href="/profile">Profile</a>
+<a href="/available_jobs">Jobs</a>
+<a href="/applications">Applications</a>
+<a href="/notifications">Notifications</a>
+
+</div>
+
+<div class="content">
+
+<h2>Application Status</h2>
+
+{% for app in apps %}
+
+<div class="card">
+
+<p>Job: {{app.job.title}}</p>
+
+<p class="status {{app.status}}">
+Status: {{app.status}}
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

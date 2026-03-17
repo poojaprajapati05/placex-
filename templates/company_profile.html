@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Company Profile</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Company Profile</h2>
+
+<!-- FLASH MESSAGE -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="notification {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="profile-card">
+
+<form method="POST">
+
+<label>Company Name <span style="color:red">*</span></label>
+<input name="name" value="{{company.name if company else ''}}" required>
+
+<label>Email <span style="color:red">*</span></label>
+<input name="email" value="{{company.email if company else ''}}" required>
+
+<label>Location <span style="color:red">*</span></label>
+<input name="location" value="{{company.location if company else ''}}" required>
+
+<label>Description <span style="color:red">*</span></label>
+<textarea name="description" required>{{company.description if company else ''}}</textarea>
+
+<label>Website</label>
+<input name="website" value="{{company.website if company else ''}}">
+
+<button type="submit">Save Profile</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Manage Jobs</h2>
+
+{% for job in jobs %}
+
+<div class="card">
+
+<h3>{{job.title}}</h3>
+
+<p><b>Location:</b> {{job.location}}</p>
+
+<p><b>Type:</b> {{job.job_type}}</p>
+
+<p><b>Salary:</b> {{job.salary}}</p>
+
+<a href="/edit_job/{{job.id}}" class="btn btn-edit">Edit</a>
+
+<a href="/delete_job/{{job.id}}" class="btn btn-delete">Delete</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

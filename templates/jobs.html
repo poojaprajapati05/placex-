@@ -1,0 +1,15 @@
+<h2>Available Jobs</h2>
+
+{% for job in jobs %}
+
+<h3>{{job.title}}</h3>
+
+<p>{{job.company}}</p>
+
+<p>{{job.description}}</p>
+
+<a href="/apply/{{job.id}}">Apply</a>
+
+<hr>
+
+{% endfor %}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+
+</div>
+
+<div class="content">
+
+<h2>Edit Job</h2>
+
+<form method="POST" class="card">
+
+<label>Company Name</label>
+<input name="name" value="{{job.name}}">
+
+<label>Job Title</label>
+<input name="title" value="{{job.title}}">
+
+<label>Description</label>
+<textarea name="description">{{job.description}}</textarea>
+
+<label>Location</label>
+<input name="location" value="{{job.location}}">
+
+<label>Salary</label>
+<input name="salary" value="{{job.salary}}">
+
+<label>Job Type</label>
+<select name="job_type">
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Internship</option>
+</select>
+
+<button type="submit">Update Job</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

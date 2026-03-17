@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Register</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+<div class="auth-card">
+
+<h2>Create Account</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="notification {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+
+<label>Username <span style="color:red">*</span></label>
+<input type="text" name="username" required>
+
+<label>Email <span style="color:red">*</span></label>
+<input type="email" name="email" required>
+
+<label>Create Password <span style="color:red">*</span></label>
+<input type="password" name="password" required>
+
+<label>Confirm Password <span style="color:red">*</span></label>
+<input type="password" name="confirm_password" required>
+
+<label>Role <span style="color:red">*</span></label>
+
+<select name="role" required>
+<option value="">Select Role</option>
+<option value="student">Student</option>
+<option value="employer">Employer</option>
+</select>
+
+<button type="submit">Register</button>
+
+</form>
+
+<p style="margin-top:15px">
+Already registered?
+<a href="/login">Login here</a>
+</p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

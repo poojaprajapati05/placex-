@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Student Profile</h2>
+
+<div class="profile-card">
+
+<h3>{{student.fullname}}</h3>
+
+<p><b>Email:</b> {{student.email}}</p>
+<p><b>Contact:</b> {{student.contact}}</p>
+<p><b>Location:</b> {{student.location}}</p>
+
+<p><b>LinkedIn:</b>
+<a href="{{student.linkedin}}" target="_blank">
+{{student.linkedin}}
+</a>
+</p>
+
+{% if student.github %}
+<p><b>GitHub:</b>
+<a href="{{student.github}}" target="_blank">
+{{student.github}}
+</a>
+</p>
+{% endif %}
+
+{% if student.portfolio %}
+<p><b>Portfolio:</b>
+<a href="{{student.portfolio}}" target="_blank">
+{{student.portfolio}}
+</a>
+</p>
+{% endif %}
+
+{% if student.resume %}
+
+<div class="profile-actions">
+
+<a class="btn resume-btn"
+href="/static/resumes/{{student.resume}}"
+target="_blank">
+View Resume
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Applications</h2>
+
+{% for app in apps %}
+
+<div class="card">
+
+<p><b>Student Name:</b> {{app.user.fullname}}</p>
+
+<p><b>Email:</b> {{app.user.email}}</p>
+
+<p><b>Job Title:</b> {{app.job.title}}</p>
+
+<p class="status {{app.status}}">
+<b>Status:</b> {{app.status}}
+</p>
+
+<div style="margin-top:10px;">
+
+{% if app.user.resume %}
+
+<a href="/static/resumes/{{app.user.resume}}" target="_blank" class="apply-btn">
+View Resume
+</a>
+
+{% endif %}
+
+<a href="/student_profile/{{app.user.id}}" class="apply-btn">
+View Profile
+</a>
+
+</div>
+
+<br>
+
+<a href="/update_application/{{app.id}}/Accepted" class="btn btn-accept">
+Accept
+</a>
+
+<a href="/update_application/{{app.id}}/Rejected" class="btn btn-reject">
+Reject
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

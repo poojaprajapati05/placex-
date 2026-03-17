@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Profile</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Student</h2>
+
+<a href="/student_dashboard">Dashboard</a>
+<a href="/profile">Profile</a>
+<a href="/available_jobs">Jobs</a>
+<a href="/applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Student Profile</h2>
+
+<!-- FLASH MESSAGE -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="notification {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- PROFILE FORM -->
+
+<form method="POST" class="card">
+
+<label>Full Name <span style="color:red">*</span></label>
+<input name="fullname" value="{{ user.fullname if user else '' }}" required>
+
+<label>Email <span style="color:red">*</span></label>
+<input name="email" value="{{ user.email if user else '' }}" required>
+
+<label>Contact Number <span style="color:red">*</span></label>
+<input name="contact" value="{{ user.contact if user else '' }}" required>
+
+<label>Location <span style="color:red">*</span></label>
+<input name="location" value="{{ user.location if user else '' }}" required>
+
+<label>LinkedIn Profile <span style="color:red">*</span></label>
+<input name="linkedin" value="{{ user.linkedin if user else '' }}" required>
+
+<label>Github (Optional)</label>
+<input name="github" value="{{ user.github if user else '' }}">
+
+<label>Portfolio (Optional)</label>
+<input name="portfolio" value="{{ user.portfolio if user else '' }}">
+
+<button type="submit">Save Profile</button>
+
+</form>
+
+<!-- RESUME UPLOAD -->
+
+<form action="/upload_resume" method="POST" enctype="multipart/form-data" class="card">
+
+<h3>Upload Resume (PDF) *</h3>
+
+<input type="file" name="resume" accept=".pdf" required>
+
+<button type="submit">Upload Resume</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

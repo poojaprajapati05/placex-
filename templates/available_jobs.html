@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Available Jobs</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Student</h2>
+
+<a href="/student_dashboard">Dashboard</a>
+<a href="/profile">Profile</a>
+<a href="/available_jobs">Available Jobs</a>
+<a href="/applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Available Jobs</h2>
+
+<div class="jobs">
+
+{% for job in jobs %}
+
+<div class="job-card">
+
+<div class="job-header">
+
+<h3>{{job.title}}</h3>
+<span class="company">{{job.company_name}}</span>
+
+</div>
+
+<div class="job-details">
+
+<p>📍 {{job.location}}</p>
+<p>💼 {{job.job_type}}</p>
+<p>💰 {{job.salary}}</p>
+
+</div>
+
+<div class="job-actions">
+
+<a class="apply-btn" href="/apply/{{job.id}}">
+Apply Now
+</a>
+
+</div>
+
+</div>
+
+{% else %}
+
+<p>No jobs available right now.</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

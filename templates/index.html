@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<script>
+
+function searchJobs(){
+
+let input = document.getElementById("search").value.toLowerCase();
+let jobs = document.getElementsByClassName("job-card");
+
+for(let i=0;i<jobs.length;i++){
+
+let title = jobs[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+
+if(title.includes(input)){
+jobs[i].style.display="block";
+}
+else{
+jobs[i].style.display="none";
+}
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo-box">
+
+<img src="/static/images/placex_logo.png" class="logo">
+
+</div>
+
+<div class="nav-links">
+
+<a href="/">Home</a>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+
+</div>
+
+</div>
+
+
+<!-- HERO -->
+
+<div class="hero">
+
+<h1>Find Your Dream Job</h1>
+
+<p>Connect Students with Top Companies</p>
+
+</div>
+
+<!-- HOW IT WORKS -->
+
+<div class="how-it-works">
+
+<h2>How PlaceX Works</h2>
+
+<div class="steps">
+
+<div class="step">
+
+<div class="icon">👤</div>
+
+<h3>Create Account</h3>
+
+<p>Register as a student or employer and build your profile.</p>
+
+</div>
+
+<div class="step">
+
+<div class="icon">💼</div>
+
+<h3>Apply for Jobs</h3>
+
+<p>Browse jobs and apply directly with your resume.</p>
+
+</div>
+
+<div class="step">
+
+<div class="icon">🚀</div>
+
+<h3>Get Hired</h3>
+
+<p>Employers review applications and hire the best candidates.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PLATFORM STATS -->
+
+<div class="stats" style="padding:40px">
+
+<div class="stat-card">
+
+<h3>Total Jobs</h3>
+<h2>{{jobs|length}}</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>Companies</h3>
+<h2>10+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>Students</h3>
+<h2>100+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>Placements</h3>
+<h2>50+</h2>
+
+</div>
+
+</div>
+
+
+<!-- SEARCH BAR -->
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="Search jobs (Python, AI, Web...)"
+onkeyup="searchJobs()"
+>
+
+</div>
+
+
+<!-- JOBS -->
+
+<div class="jobs" style="padding:40px">
+
+<h2>Latest Jobs</h2>
+
+{% for job in jobs %}
+
+<div class="job-card">
+
+<div class="job-header">
+
+<h3>{{job.title}}</h3>
+<span class="company">{{job.company_name}}</span>
+
+</div>
+
+<div class="job-details">
+
+<p>📍 {{job.location}}</p>
+<p>💼 {{job.job_type}}</p>
+<p>💰 {{job.salary}}</p>
+
+</div>
+
+<div class="job-actions">
+
+<a class="apply-btn" href="/login">
+Login to Apply
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-container">
+
+<div class="footer-section">
+
+<h2>PlaceX</h2>
+<p>Smart Placement Portal connecting students with top companies.</p>
+
+</div>
+
+<div class="footer-section">
+
+<h3>Quick Links</h3>
+
+<a href="/">Home</a>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+
+</div>
+
+<div class="footer-section">
+
+<h3>Contact</h3>
+
+<p>Email: support@placex.com</p>
+<p>Location: Ahmedabad, India</p>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<p>© 2026 PlaceX | All Rights Reserved</p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

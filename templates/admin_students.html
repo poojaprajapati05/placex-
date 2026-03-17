@@ -1,0 +1,14 @@
+<h2>Student Profiles</h2>
+
+{% for s in students %}
+
+<div class="card">
+
+<p><b>Name:</b> {{s.fullname}}</p>
+<p><b>Email:</b> {{s.email}}</p>
+<p><b>Contact:</b> {{s.contact}}</p>
+<p><b>Location:</b> {{s.location}}</p>
+
+</div>
+
+{% endfor %}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<h2>Employer Dashboard</h2>
+
+<!-- DASHBOARD STATS -->
+
+<div class="stats">
+
+<div class="stat-card">
+<h3>Total Jobs</h3>
+<h2>{{total_jobs}}</h2>
+</div>
+
+<div class="stat-card">
+<h3>Total Applications</h3>
+<h2>{{total_apps}}</h2>
+</div>
+
+<div class="stat-card">
+<h3>Accepted</h3>
+<h2>{{accepted}}</h2>
+</div>
+
+<div class="stat-card">
+<h3>Rejected</h3>
+<h2>{{rejected}}</h2>
+</div>
+
+</div>
+
+
+<!-- RECENT JOBS -->
+
+<div class="card">
+
+<h3>Recent Jobs</h3>
+
+{% if jobs %}
+
+{% for job in jobs %}
+
+<p>
+<b>{{job.title}}</b>  
+<br>
+<span style="color:#666">{{job.location}}</span>
+</p>
+
+<hr>
+
+{% endfor %}
+
+{% else %}
+
+<p>No jobs posted yet.</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

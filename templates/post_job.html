@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Employer</h2>
+
+<a href="/employer_dashboard">Dashboard</a>
+<a href="/company_profile">Company Profile</a>
+<a href="/post_job">Post Job</a>
+<a href="/manage_jobs">Manage Jobs</a>
+<a href="/view_applications">Applications</a>
+<a href="/notifications">Notifications</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="content">
+
+<h2>Post Job</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="notification {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="profile-card">
+
+<form method="POST">
+
+<label>Company Name *</label>
+<input name="name" required>
+
+<label>Job Title *</label>
+<input name="title" required>
+
+<label>Description *</label>
+<textarea name="description" required></textarea>
+
+<label>Location *</label>
+<input name="location" required>
+
+<label>Job Type *</label>
+<select name="job_type">
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Internship</option>
+</select>
+
+<label>Salary *</label>
+<input name="salary" required>
+
+<button>Post Job</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
