@@ -1,82 +1,113 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<link rel="stylesheet" href="/static/style.css">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
 <div class="dashboard">
 
-<div class="sidebar">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-<h2>Employer</h2>
+        <h2>Employer</h2>
 
-<a href="/employer_dashboard">Dashboard</a>
-<a href="/company_profile">Company Profile</a>
-<a href="/post_job">Post Job</a>
-<a href="/manage_jobs">Manage Jobs</a>
-<a href="/view_applications">Applications</a>
-<a href="/notifications">Notifications</a>
-<a href="/logout">Logout</a>
+        <a href="/employer_dashboard">Dashboard</a>
+        <a href="/company_profile">Company Profile</a>
+        <a href="/post_job">Post Job</a>
+        <a href="/manage_jobs">Manage Jobs</a>
+        <a href="/view_applications">Applications</a>
+        <a href="/employer_notifications">Notifications</a>
+        <a href="/logout">Logout</a>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h2>Student Profile</h2>
+
+        <div class="profile-view-card">
+
+           <div class="profile-top">
+
+            <div class="avatar-circle">
+                {{student.fullname[0]}}
+            </div>
+
+    <div>
+        <h2>{{student.fullname}}</h2>
+        <p>{{student.email}}</p>
+    </div>
 
 </div>
 
-<div class="content">
+<div class="profile-grid">
 
-<h2>Student Profile</h2>
+    <div class="profile-row">
+        <span class="profile-label">Contact</span>
+        <span>{{student.contact}}</span>
+    </div>
 
-<div class="profile-card">
+    <div class="profile-row">
+        <span class="profile-label">Location</span>
+        <span>{{student.location}}</span>
+    </div>
 
-<h3>{{student.fullname}}</h3>
+    <div class="profile-row">
+        <span class="profile-label">LinkedIn</span>
 
-<p><b>Email:</b> {{student.email}}</p>
-<p><b>Contact:</b> {{student.contact}}</p>
-<p><b>Location:</b> {{student.location}}</p>
+        {% if student.linkedin %}
+        <a href="{{ student.linkedin }}" target="_blank" class="profile-btn">
+            Open Profile
+        </a>
+        {% else %}
+        <span>Not Added</span>
+        {% endif %}
+    </div>
 
-<p><b>LinkedIn:</b>
-<a href="{{student.linkedin}}" target="_blank">
-{{student.linkedin}}
-</a>
-</p>
+    {% if student.github %}
+    <div class="profile-row">
+        <span class="profile-label">GitHub</span>
 
-{% if student.github %}
-<p><b>GitHub:</b>
-<a href="{{student.github}}" target="_blank">
-{{student.github}}
-</a>
-</p>
-{% endif %}
+        <a href="{{ student.github }}" target="_blank" class="profile-btn">
+            View GitHub
+        </a>
+    </div>
+    {% endif %}
 
-{% if student.portfolio %}
-<p><b>Portfolio:</b>
-<a href="{{student.portfolio}}" target="_blank">
-{{student.portfolio}}
-</a>
-</p>
-{% endif %}
+    {% if student.portfolio %}
+    <div class="profile-row">
+        <span class="profile-label">Portfolio</span>
+
+        <a href="{{ student.portfolio }}" target="_blank" class="profile-btn">
+            View Portfolio
+        </a>
+    </div>
+    {% endif %}
+
+</div>
 
 {% if student.resume %}
+<div class="resume-area">
 
-<div class="profile-actions">
-
-<a class="btn resume-btn"
-href="/static/resumes/{{student.resume}}"
-target="_blank">
-View Resume
-</a>
+    <a href="/static/resumes/{{student.resume}}" target="_blank" class="resume-btn">
+        View Resume
+    </a>
 
 </div>
-
 {% endif %}
 
-</div>
+            
 
-</div>
+
+        </div>
+
+    </div>
 
 </div>
 
 </body>
-
 </html>
