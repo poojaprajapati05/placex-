@@ -251,9 +251,21 @@ def profile():
         current_user.email = request.form["email"]
         current_user.contact = request.form["contact"]
         current_user.location = request.form["location"]
-        current_user.linkedin = request.form["linkedin"]
-        current_user.github = request.form["github"]
-        current_user.portfolio = request.form["portfolio"]
+        
+        linkedin = request.form["linkedin"].strip()
+        if linkedin and not linkedin.startswith(('http://', 'https://')):
+            linkedin = 'https://' + linkedin
+        current_user.linkedin = linkedin
+        
+        github = request.form["github"].strip()
+        if github and not github.startswith(('http://', 'https://')):
+            github = 'https://' + github
+        current_user.github = github
+        
+        portfolio = request.form["portfolio"].strip()
+        if portfolio and not portfolio.startswith(('http://', 'https://')):
+            portfolio = 'https://' + portfolio
+        current_user.portfolio = portfolio
 
         db.session.commit()
 
@@ -526,4 +538,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)        
