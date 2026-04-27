@@ -1,19 +1,28 @@
+import email
+import re
+
 from flask import Flask, render_template, request, redirect, flash, url_for
-from flask_sqlalchemy import SQLAlchemy
+import flask_sqlalchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 import random
 import os
+from flask import session
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "placex_secret"
+
+app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = "static/resumes"
 
-db = SQLAlchemy(app)
+db = flask_sqlalchemy.SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -107,40 +116,54 @@ def home():
 
 # ---------------- AUTH ----------------
 
-@app.route("/register", methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
 
     if request.method == "POST":
 
         username = request.form["username"]
         email = request.form["email"]
-        password = request.form["password"]
-        confirm = request.form["confirm_password"]
-        role = request.form["role"]
+        email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
 
-        # Check password match
-        if password != confirm:
-            flash("Passwords do not match", "error")
+        if not re.match(email_regex, email):
+            flash("Invalid email format", "error")
             return redirect(url_for("register"))
 
-        # Check existing email
+        password = request.form["password"]
+        if not any(char.isdigit() for char in password):
+            flash("Password must contain a number", "error")
+            return redirect(url_for("register"))
+        confirm_password = request.form["confirm_password"]
+        role = request.form["role"]
+
+        # email already exists
         existing_user = User.query.filter_by(email=email).first()
 
         if existing_user:
             flash("Email already registered", "error")
             return redirect(url_for("register"))
 
-        # Hash password
+        # password match check
+        if password != confirm_password:
+            flash("Passwords do not match", "error")
+            return redirect(url_for("register"))
+
+        # strong password validation
+        if len(password) < 8:
+            flash("Password must be at least 8 characters", "error")
+            return redirect(url_for("register"))
+ 
+  # hash password securely
         hashed_password = generate_password_hash(password)
 
-        new_user = User(
+        user = User(
             username=username,
             email=email,
             password=hashed_password,
             role=role
         )
 
-        db.session.add(new_user)
+        db.session.add(user)
         db.session.commit()
 
         flash("Registration successful", "success")
@@ -159,14 +182,23 @@ def login():
 
         user = User.query.filter_by(email=email).first()
 
+        failed_attempts = session.get('failed_attempts', 0)
+        if failed_attempts >= 5:
+            flash("Too many failed login attempts. Please try again later.", "error")
+            return redirect(url_for("login"))
+
         if not user:
+            session['failed_attempts'] = failed_attempts + 1
             flash("Email not found", "error")
             return redirect(url_for("login"))
 
         if not check_password_hash(user.password, password):
+            session['failed_attempts'] = failed_attempts + 1
             flash("Incorrect password", "error")
             return redirect(url_for("login"))
 
+        # Successful login, reset attempts
+        session.pop('failed_attempts', None)
         login_user(user)
 
         if user.role == "student":
@@ -278,12 +310,18 @@ def profile():
 @login_required
 def upload_resume():
 
-    file = request.files['resume']
-
-    if file.filename == "":
-        flash("No file selected", "error")
+    file = request.files.get('resume')
+    if not file:
+        flash("No file uploaded", "error")
         return redirect("/profile")
 
+    allowed_extensions = ['pdf']
+
+    extension = file.filename.rsplit('.', 1)[1].lower()
+
+    if extension not in allowed_extensions:
+        flash("Only PDF files allowed", "error")
+        return redirect("/profile")
     filename = secure_filename(file.filename)
 
     path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -458,6 +496,10 @@ def delete_job(id):
 
     job = Job.query.get_or_404(id)
 
+    if job.employer_id != current_user.id:
+        flash("Unauthorized", "error")
+        return redirect("/manage_jobs")
+
     db.session.delete(job)
     db.session.commit()
 
@@ -472,6 +514,10 @@ def edit_job(id):
 
     job = Job.query.get_or_404(id)
 
+    if job.employer_id != current_user.id:
+        flash("Unauthorized", "error")
+        return redirect("/manage_jobs")
+    
     if request.method == "POST":
 
         job.title = request.form["title"]
@@ -518,9 +564,13 @@ def student_profile(id):
 
 @app.route("/update_application/<int:id>/<status>")
 @login_required
-def update_application(id,status):
+def update_application(id, status):
 
     application = Application.query.get_or_404(id)
+
+    if application.job.employer_id != current_user.id:
+        flash("Unauthorized", "error")
+        return redirect("/view_applications")
 
     application.status = status
 
